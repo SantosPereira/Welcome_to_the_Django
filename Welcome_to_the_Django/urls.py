@@ -21,10 +21,18 @@ Including another URLconf
 # ]
 
 
-from django.urls import path
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework import routers
+from website.API import viewset as API_viewset
 
 from . import views
 
+route = routers.DefaultRouter()
+route.register('api', API_viewset.AlgumaCoisaViewSet, basename='algumacoisa')
+
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+    path('', include('website.urls'), name='index'),
+    path('', include(route.urls))
 ]
